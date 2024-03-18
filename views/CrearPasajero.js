@@ -5,18 +5,15 @@ import {
   Text,
   StyleSheet,
   TextInput,
-  TouchableOpacity,
-  Button,
-  Image,
-  Input
+
 } from "react-native";
 import { Pressable } from "native-base";
-import ImagePicker from 'react-native-image-picker';
+// import ImagePicker from 'react-native-image-picker';
 // import RNFS from 'react-native-fs';
 // import { useNavigation } from '@react-navigation/native';
 import clienteAxios from "../config/clienteAxios";
 import useVuelo from "../hooks/useVuelo";
-
+import { useNavigation } from '@react-navigation/native';
 
 
 export default function CreatePasajero() {
@@ -30,6 +27,7 @@ export default function CreatePasajero() {
     foto: null,
   });
 
+  const navigation = useNavigation();
   const { vuelos } = useVuelo();
 
   const handleFileChange = async (event) => {
@@ -59,14 +57,28 @@ export default function CreatePasajero() {
           },
         }
       );
-  
-      alert("Pasajero registrado exitosamente: ");
-  
+
+      // Verificar si el registro fue exitoso
+      if (data && data.msg === "El pasajero ya existe") {
+        // Mostrar mensaje de error al usuario
+        alert("Error: El pasajero ya existe");
+      } else {
+        // Mostrar mensaje de éxito al usuario
+        alert("Pasajero registrado exitosamente");
+        // Redirigir al usuario al apartado de administración
+        navigation.navigate('admin'); // Ajusta 'Admin' con el nombre de tu pantalla de administración
+      }
     } catch (error) {
-      console.error("Error al registrar el pasajero:");
-      alert("Error al registrar el pasajero: ");
+      if (error.response && error.response.status === 400 && error.response.data && error.response.data.msg === "El pasajero ya existe") {
+        // Mostrar mensaje de error al usuario
+        alert("Error: El pasajero ya existe");
+      } else {
+        console.error("Error al registrar el pasajero:", error.response);
+        alert("Error al registrar el pasajero: " + error.message);
+      }
     }
   };
+  
   
 
   return (

@@ -39,8 +39,8 @@ export default function AdminVuelos() {
                 <InfoRow label="Destino:" text={vuelo.destino_desc} />
                 <InfoRow label="Aerolínea:" text={vuelo.aerolinea_desc} />
                 <InfoRow label="Sala de Abordaje:" text={vuelo.salaabordaje} />
-                <InfoRow label="Hora de Llegada:" text={vuelo.horallegada} />
                 <InfoRow label="Hora de Salida:" text={vuelo.horasalida} />
+                <InfoRow label="Hora de Llegada:" text={vuelo.horallegada} />
                 <InfoRow label="Tiempo estimado del vuelo:" text={calcularDiferenciaTiempo(vuelo)} />
               </View>
             </TouchableOpacity>

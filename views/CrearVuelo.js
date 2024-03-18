@@ -67,15 +67,19 @@ const registrar = async () => {
       throw new Error("Todos los campos son obligatorios.");
     }
 
+    const horaSalidaActualizada = new Date(horaSalida.getTime() - (5 * 60 * 60 * 1000));
+    const horaLlegadaActualizada = new Date(horaLlegada.getTime() - (5 * 60 * 60 * 1000));
+
     const flightCode = generateFlightCode(); 
     const newFlightData = {
       codvuelo: flightCode,
       codaerolinea: aerolinea,
       coddestino: destino,
       salaabordaje: salaAbordaje,
-      horasalida: horaSalida,
-      horallegada: horaLlegada,
+      horasalida: horaSalidaActualizada,
+      horallegada: horaLlegadaActualizada,
     };
+
     const { data } = await clienteAxios.post(
       "/vuelos",
       newFlightData,
@@ -95,6 +99,7 @@ const registrar = async () => {
     alert("Error al registrar el vuelo: " + error.message);
   }
 };
+
 
   return (
     <View style={styles.container}>

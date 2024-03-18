@@ -7,6 +7,7 @@ import {
   Image,
   StyleSheet,
   RefreshControl,
+  Alert, // Importa Alert desde React Native
 } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import DetallesPasajero from "./DetallesPasajero";
@@ -41,6 +42,27 @@ const DetallesVuelo = () => {
     } else {
       console.error("El parámetro codvuelo está indefinido");
     }
+  };
+
+  const confirmarEliminacion = () => {
+    Alert.alert(
+      "Confirmación",
+      "¿Estás seguro de que quieres eliminar este vuelo?",
+      [
+        {
+          text: "Cancelar",
+          onPress: () => console.log("Cancelado"),
+          style: "cancel",
+        },
+        {
+          text: "Eliminar",
+          onPress: async () => {
+            await eliminarVuelo(vuelo.codvuelo);
+            alert("Vuelo eliminado exitosamente.");
+          },
+        },
+      ]
+    );
   };
   
 
@@ -132,7 +154,7 @@ const DetallesVuelo = () => {
         <Text style={styles.buttonText}>Editar Vuelo</Text>
       </Pressable>
       <Pressable
-        onPress={() => eliminarVuelo(vuelo.codvuelo)}
+        onPress={confirmarEliminacion}
         style={[styles.button, { backgroundColor: "red" }]}
       >
         <Text style={styles.buttonText}>Eliminar Vuelo</Text>
